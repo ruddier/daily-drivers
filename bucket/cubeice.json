@@ -1,22 +1,41 @@
 {
-    "version": "3.5.2",
-    "description": "A file unarchiver that prevents character encoding issues",
+    "version": "3.0.1",
+    "description": "CubeICE is a file archiver that prevents problems with garbled characters when decompressing files.",
     "homepage": "https://www.cube-soft.jp/cubeice/",
     "license": "Apache-2.0",
-    "architecture": {
-        "64bit": {
-            "url": "https://dl.cube-soft.jp/archive/cubeice-3.5.2-x64.exe",
-            "hash": "75152D48787819DB0D5BB8680529901E51ACA39F7D679474643404604EFD44FA"
-        },
-        "32bit": {
-            "url": "https://dl.cube-soft.jp/archive/cubeice-3.5.2-x86.exe",
-            "hash": "96BEF371127FC874A3E2D11FFEDB4AFE90DC88C798C3CFC976103FE827027D05"
-        }
-    },
-    "innosetup": true,
     "pre_install": [
-        "$items = @{ 'dll' = @('AlphaFS', 'Cube.Core', 'Cube.FileSystem.AlphaFS', 'Cube.FileSystem.SevenZip', 'Cube.FileSystem.SevenZip.Ice', 'Cube.Forms', 'Cube.Net', 'Cube.Services', 'NLog'); 'exe' = @('CubeChecker', 'cubeice', 'cubeice-associate', 'cubeice-setting'); 'config' = @('CubeChecker.exe', 'cubeice.exe', 'cubeice-associate.exe', 'cubeice-setting.exe') }",
-        "foreach ($ext in $items.Keys) { foreach ($i in $items.$ext) { if (Test-Path \"$dir\\$i,1.$ext\") { Copy-Item \"$dir\\$i,1.$ext\" \"$dir\\$i.$ext\" -Force } } }"
+        "$items = @{",
+        "    \"dll\" = @(",
+        "        \"AlphaFS\",",
+        "        \"Cube.Core\",",
+        "        \"Cube.FileSystem.AlphaFS\",",
+        "        \"Cube.FileSystem.SevenZip\",",
+        "        \"Cube.FileSystem.SevenZip.Ice\",",
+        "        \"Cube.Forms\",",
+        "        \"Cube.Net\",",
+        "        \"Cube.Services\",",
+        "        \"NLog\"",
+        "    )",
+        "    \"exe\" = @(",
+        "        \"CubeChecker\",",
+        "        \"cubeice\",",
+        "        \"cubeice-associate\",",
+        "        \"cubeice-setting\"",
+        "    )",
+        "    \"config\" = @(",
+        "        \"CubeChecker.exe\",",
+        "        \"cubeice.exe\",",
+        "        \"cubeice-associate.exe\",",
+        "        \"cubeice-setting.exe\"",
+        "    )",
+        "}",
+        "$append = \",1\"",
+        "foreach ($item in $items.GetEnumerator()) {",
+        "    $ext = $item.Name",
+        "    foreach ($i in $item.Value) {",
+        "        Copy-Item \"$dir\\$i$append.$ext\" \"$dir\\$i.$ext\"",
+        "    }",
+        "}"
     ],
     "bin": [
         "CubeChecker.exe",
@@ -25,12 +44,29 @@
         "cubeice-setting.exe"
     ],
     "shortcuts": [
-        ["cubeice.exe", "CubeICE"],
-        ["cubeice-setting.exe", "CubeICE Setting"]
+        [
+            "cubeice.exe",
+            "CubeICE"
+        ],
+        [
+            "cubeice-setting.exe",
+            "CubeICE Setting"
+        ]
     ],
+    "architecture": {
+        "64bit": {
+            "url": "https://dl.cube-soft.jp/archive/cubeice-3.0.1-x64.exe",
+            "hash": "de2041aaa2f583127045e8f7d17533b0b7f55b036ff396f47192cc15e0aa55d9"
+        },
+        "32bit": {
+            "url": "https://dl.cube-soft.jp/archive/cubeice-3.0.1-x86.exe",
+            "hash": "cfc5703867f7d92a5d0e1679326a2c2f87e4ee26224ca7bfd4c1057c01c10e31"
+        }
+    },
+    "innosetup": true,
     "checkver": {
         "url": "https://www.cube-soft.jp/cubeice/releases.php",
-        "re": "CubeICE\\s+([\\d.]+)"
+        "regex": "cubeice-([\\d.]+).exe"
     },
     "autoupdate": {
         "architecture": {
