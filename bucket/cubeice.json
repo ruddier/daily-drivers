@@ -30,7 +30,7 @@
     ],
     "checkver": {
         "url": "https://www.cube-soft.jp/cubeice/releases.php",
-        "re": "最新バージョン\\s+\\(([\\d.]+)"
+        "re": "CubeICE\\s+([\\d.]+)"
     },
     "autoupdate": {
         "architecture": {
